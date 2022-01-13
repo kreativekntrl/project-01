@@ -6,24 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="./assets/css/style.css" />
 
     <title>Homepage</title>
 </head>
 
 <body>
-    <header>
-        <h1 id=homepage-title>The Random Recipe Shoping Aid!</h1>
-    </header>
-
-    <main id="container" class="mdl-layout mdl-grid">
-        <div id="dex-box">
-            <p>welcome to our app. Please click the button to see a random recipe and shopping list, along with a video
-                guide</p>
-        </div>
-        <article>
-            <button type="button" id="recipebutton">New Random Recipe!</button>
-        </article>
+    <div class="bg-image"></div>
+    
+    <div class="bg-text w3-pale-yellow">
+        <h1 class="w3-animate-zoom" style="font-size:50px">Recipe Roulette</h1>
+        <button type="button" id="recipebutton" class="w3-btn">Find A Random Recipe!</button>
+        <p>welcome to our app! Please click the button above to generate a random recipe, shopping list, and a video tutorial</p>
+    </div>
+    
+    <main id="container">
         <div id="previouscontainer">
             <h2>Previous recipes</h2>
             <div id="previousrecipes">
