@@ -1,4 +1,6 @@
 var mealDb = 'https:/www.themealdb.com/api/json/v1/1/random.php'
+var foodList = $("#previousrecipes"); 
+var foodArray = []; 
 
 fetch(mealDb)
   .then(function (response) {
@@ -71,3 +73,25 @@ fetch(mealDb)
       });
     }
   }
+
+
+  function previousFood(query) { 
+    foodArray = JSON.parse(localStorage.getItem("foodItem")); 
+
+    if (foodArray) {
+      foodArray = foodArray;
+      foodList.textContent = "";
+      for (i = 0; i < foodArray.length; i++) {
+          var newDiv;
+          var newBtn;
+          newDiv = document.createElement("div");
+          newDiv.setAttribute();
+          newBtn = document.createElement("button");
+          newBtn.setAttribute();
+          newBtn.textContent = foodArray[i].city;
+          foodList.appendChild(newDiv);
+          newDiv.appendChild(newBtn);
+          console.log(foodArray[i]);
+      }
+  }
+}
