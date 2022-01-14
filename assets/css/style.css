@@ -11,6 +11,7 @@
 
 h1, h2 {
     color: var(--primary);
+    font-family: 'Raleway', sans-serif;
 }
 
 p {
