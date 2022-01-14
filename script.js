@@ -24,37 +24,40 @@ fetch(mealDb)
 
   function displayVideo(num) {
     //match to iframe in page2
-    var test = $("#test");
+    var video = $("#video");
     var fetchedURL = num.meals[0].strYoutube;
     var firstSplit = fetchedURL.split("watch");
     var secondSplit = firstSplit[1].split("=");
     videoURL = firstSplit[0] + "embed/" + secondSplit[1];
     //match to iframe in page2
-    test.attr("src", videoURL);
+    video.attr("src", videoURL);
   }
 
   //displays recipe instructions
   function showRecipe(num) {
-    var recipeDiv;  
+    var recipeDiv;
+    var recipeName = $("#recipename");
+    var name = num.meals[0].strMeal; 
     var instructions = num.meals[0].strInstructions;
+    recipeName = recipeName.text(name);
     recipeDiv = $("<p></p>").text(instructions);
     $("body").append(recipeDiv);
   }
 
   //displays recipe ingredients
   function showList(num) {
-    //cycles through strIngredient1-20 keys in JSON array object
+    //cycles through JSON array object looking forstrIngredient1-20 keys 
     for (i = 1; i < 21; i++) {
       var idCheck = "strIngredient" + i;
       //Goes through every key in array and compares to idCheck, then creates an element to display one that matches
       $.each(num.meals[0], function(index, ingredient) {
-        if (index === idCheck) {
-          console.log(ingredient);
-          newDiv = $("<div></div>").text(ingredient);
-          $("#ingredientDiv").append(newDiv);
-        }
         if ( ingredient === "") {
           return false;
+        }
+        if (index === idCheck) {
+          console.log(ingredient);
+          recipeLi = $("<li></li>").text(ingredient);
+          $("#shoppinglist").append(recipeLi);
         }
       });
     }
@@ -62,15 +65,18 @@ fetch(mealDb)
 
   //displays recipe measurements
   function showMeasure(num) {
-    //cycles through strMeasure1-20 keys in JSON array object
+    //cycles through JSON array object looking forstrMeasure1-20 keys 
     for (i = 1; i < 21; i++) {
       var idCheck = "strMeasure" + i;
+      if (!num.meals[0]["strMeasure" + i]) {
+        break;
+      }
             //Goes through every key in array and compares to idCheck, then creates an element to display one that matches
       $.each(num.meals[0], function(index, measure) {
         if (index === idCheck) {
           console.log(measure);
-          newDiv = $("<div></div>").text(measure);
-          $("#measureDiv").append(newDiv);
+          measureLi = $("<li></li>").text(measure);
+          $("#measurelist").append(measureLi);
         }
       });
     }
