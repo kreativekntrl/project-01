@@ -9,12 +9,21 @@
     box-sizing: border-box;
 }
 
-h1, h2, p {
+h1, h2 {
     color: var(--primary);
+}
+
+p {
+    color: var(--primary);
+    padding-top: 10px;
 }
 
 .btn {
     border-radius: 5px;
+    padding: 8px;
+    background-color: var(--secondary);
+    color: var(--primary);
+
 }
 
 .bg-image {
@@ -30,6 +39,19 @@ h1, h2, p {
 
 /* Position text in the middle of the page/image */
 .bg-text {
+    font-weight: bold;
+    border: 3px solid var(--secondary);
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 80%;
+    padding: 20px;
+    text-align: center;
+}
+
+.prev-text {
     font-weight: bold;
     border: 3px solid var(--secondary);
     position: absolute;
