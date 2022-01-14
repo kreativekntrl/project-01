@@ -1,11 +1,21 @@
+<<<<<<< HEAD
+fetch('www.themealdb.com/api/json/v1/1/random.php1',  {
+})
+  .then(function (response) {
+=======
 var mealDb = 'https:/www.themealdb.com/api/json/v1/1/random.php'
 
 fetch(mealDb)
 .then(function (response) {
+>>>>>>> 3a03d1feae7c51158455d3ff91367e87f43a781a
     return response.json();
   })
   .then(function (data) {
     console.log(data);
+<<<<<<< HEAD
+  });
+
+=======
     showRecipe(data);
     displayVideo(data);
     showList(data);
@@ -71,3 +81,4 @@ fetch(mealDb)
       });
     }
   }
+>>>>>>> 3a03d1feae7c51158455d3ff91367e87f43a781a
