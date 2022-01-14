@@ -1,0 +1,20 @@
+:root {
+    --primary: #556B2F;
+    --secondary: #FFFFF0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.btn {
+    border-radius: 5px;
+    padding: 8px;
+    background-color: var(--secondary);
+    color: var(--primary);
+    margin-left: 30%;
+    width: 40%;
+}
+
