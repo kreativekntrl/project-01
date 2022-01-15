@@ -12,6 +12,7 @@ fetch(mealDb)
     displayVideo(data);
     showList(data);
     // showMeasure(data);
+    previousFood(data)
   })
 
   //embeds youtube videos in the iframe
@@ -33,6 +34,8 @@ function showRecipe(num) {
   recipeName = recipeName.text(name);
   recipeDiv = $("<p></p>").text(instructions);
   $("#recipetext").append(recipeDiv);
+  foodArray.push({"foodItem": num.meals[0].strMeal, "url": document.location.href});
+  localStorage.setItem("foodItem", JSON.stringify(foodArray));
 }
 
 //displays recipe ingredients
@@ -45,30 +48,36 @@ function showList(data) {
     if (!meal[ingredientKey]) {
       break;
     }
-    console.log(meal[ingredientKey] + " " + meal[measureKey]);
+    //console.log(meal[ingredientKey] + " " + meal[measureKey]);
     var recipeLi = $("<li>").text(meal[ingredientKey] + " " + meal[measureKey]);
-    console.log(recipeLi[0]);
+    //console.log(recipeLi[0]);
     $("#shoppinglist").append(recipeLi);
   }
 } 
 
-function previousFood(query) { 
-  foodArray = JSON.parse(localStorage.getItem("foodItem")); 
+function previousFood(data) { 
+   storedArray = JSON.parse(localStorage.getItem("foodItem")); 
 
-  if (foodArray) {
-    foodArray = foodArray;
+  if (storedArray) {
+    foodArray = storedArray;
     foodList.textContent = "";
     for (i = 0; i < foodArray.length; i++) {
         var newDiv;
         var newBtn;
+        var strMeal = data.meals[i].strMeal;
+        console.log(strMeal);
         newDiv = document.createElement("div");
-        newDiv.setAttribute();
+        //newDiv.setAttribute();
         newBtn = document.createElement("button");
-        newBtn.setAttribute();
-        newBtn.textContent = foodArray[i].city;
-        foodList.appendChild(newDiv);
+       // newBtn.setAttribute();
+        newBtn.textContent = foodArray[i].foodItem;
+        foodList.append(newDiv);
         newDiv.appendChild(newBtn);
         console.log(foodArray[i]);
+        foodArray.push({"foodItem": data.meals[0].strMeal, "url": document.location.href});
+        console.log(foodArray);
+        localStorage.setItem("foodItem", JSON.stringify(foodArray));
+      
     }
 }
 }
