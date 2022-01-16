@@ -17,6 +17,12 @@ body {
 
 h1, h2, h3 {
     padding: 10px;
+    line-height: 2.5rem;
+}
+
+iframe {
+    width: 100%;
+    height: 25vh;
 }
 
 .btn {
@@ -49,8 +55,8 @@ h1, h2, h3 {
     width: 40%;
 }
 
-/* Media Queries */
-@media screen and (min-width: 483px) {
+/*for md screen*/
+@media screen and (min-width: 480px) {
     .shopList {
         width: 50%;
         float: left;
@@ -62,5 +68,15 @@ h1, h2, h3 {
     }
     .hr2 {
         display: none;
+    }
+    iframe {
+        height: 35vh;
+    }
+}
+
+/*for lg screen*/
+@media screen and (min-width: 768px) {
+    iframe {
+        height: 50vh;
     }
 }
