@@ -54,7 +54,7 @@ function showList(data) {
     var recipeLi = $("<li>").text(meal[ingredientKey] + " " + meal[measureKey]);
     $("#shoppinglist").append(recipeLi);
   }
-} 
+}
 
 function previousFood(data) {
   storedArray = JSON.parse(localStorage.getItem("foodItem"));
@@ -63,28 +63,29 @@ function previousFood(data) {
   if (storedArray) {
     foodArray = storedArray;
     foodList.textContent = "";
-    
-    foodArray.push({
-      "foodItem": data.meals[0].strMeal,
-      "id": data.meals[0].idMeal
-    });
-    localStorage.setItem("foodItem", JSON.stringify(foodArray));
+  }
 
-    for (i = 0; i < foodArray.length; i++) {
-      var newDiv = document.createElement("div");
-      //newDiv.setAttribute();
-      var newBtn = document.createElement("button");
-      // newBtn.setAttribute();
-      newBtn.textContent = foodArray[i].foodItem;
-      foodList.append(newDiv);
-      newDiv.appendChild(newBtn);
-      var test = foodArray[i].id;
+  foodArray.push({
+    "foodItem": data.meals[0].strMeal,
+    "id": data.meals[0].idMeal
+  });
+  localStorage.setItem("foodItem", JSON.stringify(foodArray));
 
-      // when value is clicked, it uses the stored id and fetches new data
-      $("#previousrecipes").on("click", function(event) {
-        event.preventDefault();
-        // replace id value with pull id
-        fetch(priorMeal + 52856)
+  for (i = 0; i < foodArray.length; i++) {
+    var newDiv = document.createElement("div");
+    //newDiv.setAttribute();
+    var newBtn = document.createElement("button");
+    // newBtn.setAttribute();
+    newBtn.textContent = foodArray[i].foodItem;
+    foodList.append(newDiv);
+    newDiv.appendChild(newBtn);
+    var test = foodArray[i].id;
+
+    // when value is clicked, it uses the stored id and fetches new data
+    $("#previousrecipes").on("click", function (event) {
+      event.preventDefault();
+      // replace id value with pull id
+      fetch(priorMeal + 52856)
         .then(function (response) {
           return response.json();
         })
@@ -93,7 +94,6 @@ function previousFood(data) {
           // runs showRecipe function using new api generated from ID
           showRecipe(data);
         })
-      });
-    }
-  }
+    });
+  } 
 }
