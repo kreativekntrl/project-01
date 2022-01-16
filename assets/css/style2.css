@@ -9,12 +9,22 @@
     box-sizing: border-box;
 }
 
+body {
+    margin: 10px;
+    background-color: var(--secondary);
+}
+
 .btn {
     border-radius: 5px;
     padding: 8px;
-    background-color: var(--secondary);
-    color: var(--primary);
+    background-color: var(--primary);
+    color: var(--secondary);
     margin-left: 30%;
     width: 40%;
+}
+
+.topDiv {
+    width: 100%;
+    text-align: center;
 }
 
