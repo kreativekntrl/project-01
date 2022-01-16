@@ -1,4 +1,8 @@
 var mealDb = 'https:/www.themealdb.com/api/json/v1/1/random.php'
+// API references id at the end
+var priorMeal = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="
+var foodList = $("#previousrecipes");
+var foodArray = [];
 
 fetch(mealDb)
   .then(function (response) {
@@ -9,10 +13,11 @@ fetch(mealDb)
     showRecipe(data);
     displayVideo(data);
     showList(data);
-    // showMeasure(data);
+    showMeasure(data);
+    previousFood(data)
   })
 
-  //embeds youtube videos in the iframe
+//embeds youtube videos in the iframe
 function displayVideo(num) {
   var video = $("#video");
   var fetchedURL = num.meals[0].strYoutube;
@@ -23,14 +28,21 @@ function displayVideo(num) {
 }
 
 //displays recipe instructions
-function showRecipe(num) {
+function showRecipe(data) {
+  $("#recipetext").empty();
   var recipeDiv;
   var recipeName = $("#recipename");
-  var name = num.meals[0].strMeal;
-  var instructions = num.meals[0].strInstructions;
+  var name = data.meals[0].strMeal;
+  var instructions = data.meals[0].strInstructions;
   recipeName = recipeName.text(name);
-  recipeDiv = $("<p></p>").text(instructions);
+  recipeDiv = $("<p>").text(instructions);
   $("#recipetext").append(recipeDiv);
+
+  foodArray.push({
+    "foodItem": data.meals[0].strMeal,
+    "id": data.meals[0].idMeal
+  });
+  localStorage.setItem("foodItem", JSON.stringify(foodArray));
 }
 
 //displays recipe ingredients
@@ -43,9 +55,54 @@ function showList(data) {
     if (!meal[ingredientKey]) {
       break;
     }
-    console.log(meal[ingredientKey] + " " + meal[measureKey]);
+    //console.log(meal[ingredientKey] + " " + meal[measureKey]);
     var recipeLi = $("<li>").text(meal[ingredientKey] + " " + meal[measureKey]);
-    console.log(recipeLi[0]);
+    //console.log(recipeLi[0]);
     $("#shoppinglist").append(recipeLi);
   }
+} 
+
+function previousFood(data) {
+  storedArray = JSON.parse(localStorage.getItem("foodItem"));
+  console.log(storedArray)
+
+  if (storedArray) {
+    foodArray = storedArray;
+    foodList.textContent = "";
+    for (i = 0; i < foodArray.length; i++) {
+      // var strMeal = data.meals[i].strMeal;
+      // console.log(strMeal);
+      var newDiv = document.createElement("div");
+      //newDiv.setAttribute();
+      var newBtn = document.createElement("button");
+      // newBtn.setAttribute();
+      newBtn.textContent = foodArray[i].foodItem;
+      foodList.append(newDiv);
+      newDiv.appendChild(newBtn);
+      // foodArray.push({"foodItem": data.meals[0].strMeal, "url": document.location.href});
+      // localStorage.setItem("foodItem", JSON.stringify(foodArray));
+      var test = foodArray[i].id;
+
+      // when value is clicked, it uses the stored id and fetches new data
+      $("#previousrecipes").on("click", function(event) {
+        event.preventDefault();
+        // replace id value with pull id
+        fetch(priorMeal + 52856)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          console.log(data);
+          // runs showRecipe function using new api generated from ID
+          showRecipe(data);
+        })
+      });
+    }
+  }
 }
+
+
+
+
+
+
