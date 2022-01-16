@@ -7,6 +7,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    line-height: 1.5rem;
 }
 
 body {
@@ -14,7 +15,32 @@ body {
     background-color: var(--secondary);
 }
 
+h1, h2, h3 {
+    padding: 10px;
+}
+
 .btn {
+    border-radius: 5px;
+    padding: 8px;
+    background-color: var(--primary);
+    color: var(--secondary);
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 30%;
+    width: 40%;
+}
+
+.topDiv,
+.botDiv {
+    width: 100%;
+    text-align: center;
+}
+
+.hr1, .hr2 {
+   border: 2px solid var(--primary); 
+}
+
+.newBtn {
     border-radius: 5px;
     padding: 8px;
     background-color: var(--primary);
@@ -23,8 +49,18 @@ body {
     width: 40%;
 }
 
-.topDiv {
-    width: 100%;
-    text-align: center;
-}
+/* Media Queries */
+@media screen and (min-width: 483px) {
+    .shopList {
+        width: 50%;
+        float: left;
+    }
 
+    .prevList {
+        width: 50%;
+        float: right;
+    }
+    .hr2 {
+        display: none;
+    }
+}
