@@ -17,9 +17,9 @@ fetch(mealDb)
   })
 
 //embeds youtube videos in the iframe
-function displayVideo(num) {
+function displayVideo(data) {
   var video = $("#video");
-  var fetchedURL = num.meals[0].strYoutube;
+  var fetchedURL = data.meals[0].strYoutube;
   if (fetchedURL === "") {
     return;
   }
@@ -43,6 +43,7 @@ function showRecipe(data) {
 
 //displays recipe ingredients
 function showList(data) {
+  $("#shoppinglist").empty();
   //cycles through JSON array object looking for strIngredient1-20 and strMeasure keys, then appends them to a list as a pair 
   for (i = 1; i < 21; i++) {
     var ingredientKey = "strIngredient" + i;
@@ -65,34 +66,42 @@ function previousFood(data) {
     foodList.textContent = "";
   }
 
+
+
   foodArray.push({
     "foodItem": data.meals[0].strMeal,
     "id": data.meals[0].idMeal
   });
   localStorage.setItem("foodItem", JSON.stringify(foodArray));
 
-  for (i = 0; i < foodArray.length; i++) {
-    var newDiv = document.createElement("div");
-    //newDiv.setAttribute();
-    var newBtn = document.createElement("button");
-    // newBtn.setAttribute();
-    newBtn.textContent = foodArray[i].foodItem;
-    foodList.append(newDiv);
-    newDiv.appendChild(newBtn);
-    var test = foodArray[i].id;
 
-    // when value is clicked, it uses the stored id and fetches new data
-    $("#previousrecipes").on("click", function (event) {
+
+  for (i = 0; i < foodArray.length; i++) {
+    var newDiv = $("<div>");
+    var newBtn = $("<button>");
+    var id = foodArray[i].id;
+    //makes new button have a unique id and value matching meal Id
+    newBtn.attr("value", id);
+    newBtn.attr("id", "btn-recipe" + id)
+    newBtn.text(foodArray[i].foodItem); 
+    foodList.append(newDiv);
+    newDiv.append(newBtn);
+
+    // when value is clicked, it takes the value from the clicked button id
+    $("#btn-recipe" + id).on("click", function (event) {
       event.preventDefault();
-      // replace id value with pull id
-      fetch(priorMeal + 52856)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (data) {
-          console.log(data);
+      id = $(this).val()
+    // replace id value with button value
+      console.log(id);
+      fetch(priorMeal + id)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
           // runs showRecipe function using new api generated from ID
           showRecipe(data);
+          showList(data);
+          displayVideo(data);
         })
     });
   } 
