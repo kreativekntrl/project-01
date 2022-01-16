@@ -13,14 +13,16 @@ fetch(mealDb)
     showRecipe(data);
     displayVideo(data);
     showList(data);
-    showMeasure(data);
-    previousFood(data)
+    previousFood(data);
   })
 
 //embeds youtube videos in the iframe
 function displayVideo(num) {
   var video = $("#video");
   var fetchedURL = num.meals[0].strYoutube;
+  if (fetchedURL === "") {
+    return;
+  }
   var firstSplit = fetchedURL.split("watch");
   var secondSplit = firstSplit[1].split("=");
   videoURL = firstSplit[0] + "embed/" + secondSplit[1];
@@ -37,12 +39,6 @@ function showRecipe(data) {
   recipeName = recipeName.text(name);
   recipeDiv = $("<p>").text(instructions);
   $("#recipetext").append(recipeDiv);
-
-  foodArray.push({
-    "foodItem": data.meals[0].strMeal,
-    "id": data.meals[0].idMeal
-  });
-  localStorage.setItem("foodItem", JSON.stringify(foodArray));
 }
 
 //displays recipe ingredients
@@ -55,9 +51,7 @@ function showList(data) {
     if (!meal[ingredientKey]) {
       break;
     }
-    //console.log(meal[ingredientKey] + " " + meal[measureKey]);
     var recipeLi = $("<li>").text(meal[ingredientKey] + " " + meal[measureKey]);
-    //console.log(recipeLi[0]);
     $("#shoppinglist").append(recipeLi);
   }
 } 
@@ -69,9 +63,14 @@ function previousFood(data) {
   if (storedArray) {
     foodArray = storedArray;
     foodList.textContent = "";
+    
+    foodArray.push({
+      "foodItem": data.meals[0].strMeal,
+      "id": data.meals[0].idMeal
+    });
+    localStorage.setItem("foodItem", JSON.stringify(foodArray));
+
     for (i = 0; i < foodArray.length; i++) {
-      // var strMeal = data.meals[i].strMeal;
-      // console.log(strMeal);
       var newDiv = document.createElement("div");
       //newDiv.setAttribute();
       var newBtn = document.createElement("button");
@@ -79,8 +78,6 @@ function previousFood(data) {
       newBtn.textContent = foodArray[i].foodItem;
       foodList.append(newDiv);
       newDiv.appendChild(newBtn);
-      // foodArray.push({"foodItem": data.meals[0].strMeal, "url": document.location.href});
-      // localStorage.setItem("foodItem", JSON.stringify(foodArray));
       var test = foodArray[i].id;
 
       // when value is clicked, it uses the stored id and fetches new data
@@ -100,9 +97,3 @@ function previousFood(data) {
     }
   }
 }
-
-
-
-
-
-
