@@ -50,14 +50,6 @@ ul {
    border: 2px solid var(--primary); 
 }
 
-.newBtn {
-    border-radius: 5px;
-    padding: 8px;
-    background-color: var(--primary);
-    color: var(--secondary);
-    margin-left: 30%;
-    width: 40%;
-}
 
 /*for md screen*/
 @media screen and (min-width: 480px) {

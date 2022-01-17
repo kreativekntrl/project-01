@@ -15,7 +15,6 @@ function fetchMeal() {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       showRecipe(data);
       displayVideo(data);
       showList(data);
@@ -66,7 +65,6 @@ function showList(data) {
 
 function previousFood(data) {
   storedArray = JSON.parse(localStorage.getItem("foodItem"));
-  console.log(storedArray)
 
   if (storedArray) {
     foodArray = storedArray;
@@ -90,26 +88,33 @@ function previousFood(data) {
     //makes new button have a unique id and value matching meal Id
     newBtn.attr("value", id);
     newBtn.attr("id", "btn-recipe" + id)
-    newBtn.text(foodArray[i].foodItem); 
+    newBtn.text(foodArray[i].foodItem);
     foodList.append(newDiv);
     newDiv.append(newBtn);
+    newBtn.css({
+      "border-radius": "5px",
+      "padding": "5px",
+      "margin": "5px",
+      "background-color": "#556B2F",
+      "width": "40%",
+      "color": " #FFFFF0"
+    });
 
     // when value is clicked, it takes the value from the clicked button id
     $("#btn-recipe" + id).on("click", function (event) {
       event.preventDefault();
       id = $(this).val()
-    // replace id value with button value
-      console.log(id);
+      // replace id value with button value
       fetch(priorMeal + id)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
           // runs showRecipe function using new api generated from ID
           showRecipe(data);
           showList(data);
           displayVideo(data);
         })
     });
-  } 
+  }
 }
