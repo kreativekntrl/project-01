@@ -19,7 +19,16 @@ function fetchMeal() {
       displayVideo(data);
       showList(data);
       previousFood(data);
+      displayCountry(data);
+      console.log(data);
     })
+}
+
+function displayCountry(data) {
+  var country = data.meals[0].strArea;
+  console.log(country);
+  var countryName = $("#country");
+  countryName = countryName.text(country);
 }
 
 //embeds youtube videos in the iframe
@@ -27,6 +36,7 @@ function displayVideo(data) {
   var video = $("#video");
   var fetchedURL = data.meals[0].strYoutube;
   if (fetchedURL === "") {
+    video.remove();
     return;
   }
   var firstSplit = fetchedURL.split("watch");
