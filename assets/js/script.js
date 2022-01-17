@@ -1,20 +1,27 @@
-var mealDb = 'https:/www.themealdb.com/api/json/v1/1/random.php'
 // API references id at the end
 var priorMeal = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="
 var foodList = $("#previousrecipes");
 var foodArray = [];
+var btn = $("#recipebutton");
 
-fetch(mealDb)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    console.log(data);
-    showRecipe(data);
-    displayVideo(data);
-    showList(data);
-    previousFood(data);
-  })
+fetchMeal();
+btn.on("click", fetchMeal);
+
+function fetchMeal() {
+  var mealDb = 'https:/www.themealdb.com/api/json/v1/1/random.php'
+
+  fetch(mealDb)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      showRecipe(data);
+      displayVideo(data);
+      showList(data);
+      previousFood(data);
+    })
+}
 
 //embeds youtube videos in the iframe
 function displayVideo(data) {
