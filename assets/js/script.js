@@ -117,4 +117,13 @@ function previousFood(data) {
         })
     });
   }
+  
+  function reset() {
+    localStorage.removeItem("foodItem");
+    $("#previousrecipes").remove();
+  }
+  $("#reset").on("click", function (event) {
+    event.preventDefault();
+    reset();
+  })
 }
