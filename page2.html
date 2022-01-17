@@ -14,30 +14,28 @@
 </head>
 
 <body>
-    <div id="topcontainer">
-        <button type="button" class="btn" id="recipebutton">New Random Recipe!</button>
+    <button type="button" class="btn" id="recipebutton">New Random Recipe!</button>
+    <div id="topcontainer" class="topDiv">
         <h1 id="recipename">The recipe name</h1>
-        <iframe src = "" id="video"></iframe>
+        <iframe src="" id="video"></iframe>
+        <h2>Directions: </h2>
         <div id="recipetext"></div>
     </div>
 
-    <!-- add top border -->
-    <div id="bottomcontainer">
-        <h2>Shopping List</h2>
-        <div id="shoppingcontainer">
-            <ul id="shoppinglist">
-            </ul>
-             
+    <hr class="hr1">
+    <div id="bottomcontainer" class="botDiv">
+        <div id="shoppingcontainer" class="shopList">
+            <h2>Shopping List: </h2>
+            <ul id="shoppinglist"></ul>
             <ul id="measurelist"></ul>
         </div>
-        <!-- add top border -->
-        <div id="previouscontainer">
-            <h2>Previous recipes</h2>
+        <hr class="hr2">
+
+        <div id="previouscontainer" class="prevList">
+            <h2>Previous Recipes:</h2>
             <div id="previousrecipes">
                 <ul id="recipelist">
-                    <li><a href="#placeholder">oldrecipe</a></li>
-                    <li><a href="#placeholder">oldrecipe</a></li>
-                    <li><a href="#placeholder">oldrecipe</a></li>
+                    <button class="clearBtn" id="reset">Clear past recipes</button>
                 </ul>
             </div>
         </div>

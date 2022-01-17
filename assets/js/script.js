@@ -1,23 +1,34 @@
-var mealDb = 'https:/www.themealdb.com/api/json/v1/1/random.php'
-var foodList = $("#previousrecipes"); 
-var foodArray = []; 
+// API references id at the end
+var priorMeal = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="
+var foodList = $("#previousrecipes");
+var foodArray = [];
+var btn = $("#recipebutton");
 
-fetch(mealDb)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    console.log(data);
-    showRecipe(data);
-    displayVideo(data);
-    showList(data);
-    // showMeasure(data);
-  })
+fetchMeal();
+btn.on("click", fetchMeal);
 
-  //embeds youtube videos in the iframe
-function displayVideo(num) {
+function fetchMeal() {
+  var mealDb = 'https:/www.themealdb.com/api/json/v1/1/random.php'
+
+  fetch(mealDb)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      showRecipe(data);
+      displayVideo(data);
+      showList(data);
+      previousFood(data);
+    })
+}
+
+//embeds youtube videos in the iframe
+function displayVideo(data) {
   var video = $("#video");
-  var fetchedURL = num.meals[0].strYoutube;
+  var fetchedURL = data.meals[0].strYoutube;
+  if (fetchedURL === "") {
+    return;
+  }
   var firstSplit = fetchedURL.split("watch");
   var secondSplit = firstSplit[1].split("=");
   videoURL = firstSplit[0] + "embed/" + secondSplit[1];
@@ -25,18 +36,20 @@ function displayVideo(num) {
 }
 
 //displays recipe instructions
-function showRecipe(num) {
+function showRecipe(data) {
+  $("#recipetext").empty();
   var recipeDiv;
   var recipeName = $("#recipename");
-  var name = num.meals[0].strMeal;
-  var instructions = num.meals[0].strInstructions;
+  var name = data.meals[0].strMeal;
+  var instructions = data.meals[0].strInstructions;
   recipeName = recipeName.text(name);
-  recipeDiv = $("<p></p>").text(instructions);
+  recipeDiv = $("<p>").text(instructions);
   $("#recipetext").append(recipeDiv);
 }
 
 //displays recipe ingredients
 function showList(data) {
+  $("#shoppinglist").empty();
   //cycles through JSON array object looking for strIngredient1-20 and strMeasure keys, then appends them to a list as a pair 
   for (i = 1; i < 21; i++) {
     var ingredientKey = "strIngredient" + i;
@@ -45,30 +58,72 @@ function showList(data) {
     if (!meal[ingredientKey]) {
       break;
     }
-    console.log(meal[ingredientKey] + " " + meal[measureKey]);
     var recipeLi = $("<li>").text(meal[ingredientKey] + " " + meal[measureKey]);
-    console.log(recipeLi[0]);
     $("#shoppinglist").append(recipeLi);
   }
-} 
-
-function previousFood(query) { 
-  foodArray = JSON.parse(localStorage.getItem("foodItem")); 
-
-  if (foodArray) {
-    foodArray = foodArray;
-    foodList.textContent = "";
-    for (i = 0; i < foodArray.length; i++) {
-        var newDiv;
-        var newBtn;
-        newDiv = document.createElement("div");
-        newDiv.setAttribute();
-        newBtn = document.createElement("button");
-        newBtn.setAttribute();
-        newBtn.textContent = foodArray[i].city;
-        foodList.appendChild(newDiv);
-        newDiv.appendChild(newBtn);
-        console.log(foodArray[i]);
-    }
 }
+
+function previousFood(data) {
+  storedArray = JSON.parse(localStorage.getItem("foodItem"));
+
+  if (storedArray) {
+    foodArray = storedArray;
+    foodList.textContent = "";
+  }
+
+
+
+  foodArray.push({
+    "foodItem": data.meals[0].strMeal,
+    "id": data.meals[0].idMeal
+  });
+  localStorage.setItem("foodItem", JSON.stringify(foodArray));
+
+
+
+  for (i = 0; i < foodArray.length; i++) {
+    var newDiv = $("<div>");
+    var newBtn = $("<button>");
+    var id = foodArray[i].id;
+    //makes new button have a unique id and value matching meal Id
+    newBtn.attr("value", id);
+    newBtn.attr("id", "btn-recipe" + id)
+    newBtn.text(foodArray[i].foodItem);
+    foodList.append(newDiv);
+    newDiv.append(newBtn);
+    newBtn.css({
+      "border-radius": "5px",
+      "padding": "5px",
+      "margin": "5px",
+      "background-color": "#556B2F",
+      "width": "40%",
+      "color": " #FFFFF0"
+    });
+
+    // when value is clicked, it takes the value from the clicked button id
+    $("#btn-recipe" + id).on("click", function (event) {
+      event.preventDefault();
+      id = $(this).val()
+      // replace id value with button value
+      fetch(priorMeal + id)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          // runs showRecipe function using new api generated from ID
+          showRecipe(data);
+          showList(data);
+          displayVideo(data);
+        })
+    });
+  }
+  
+  function reset() {
+    localStorage.removeItem("foodItem");
+    $("#previousrecipes").remove();
+  }
+  $("#reset").on("click", function (event) {
+    event.preventDefault();
+    reset();
+  })
 }
