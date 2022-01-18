@@ -21,7 +21,6 @@ function fetchMeal() {
       showList(data);
       previousFood(data);
       displayCountry(data);
-      console.log(data);
     })
 }
 
@@ -30,7 +29,6 @@ function displayCountry(data) {
   if (country === "Unknown") {
     return;
   }
-  console.log(country);
   var countryName = $("#country");
   countryName = countryName.text(country);
 }
@@ -72,18 +70,18 @@ function showList(data) {
     if (!meal[ingredientKey]) {
       break;
     }
-    // clickbutton.attr("type", "checkbox");
     var recipeLi = $("<li>").text(meal[ingredientKey] + " " + meal[measureKey]);
     $("#shoppinglist").append(recipeLi);
   }
 }
 
-$("#shoppingcontainer").on("click", function (event) {
+//toggles line-through property on or off of shopping list items
+$("#shoppinglist").on("click", function (event) {
   target = $(event.target);
-  console.log(target);
   $(target).toggleClass("strikethrough");
 })
 
+//displays previous recipes in a list next to ingredients
 function previousFood(data) {
   storedArray = JSON.parse(localStorage.getItem("foodItem"));
 
@@ -139,6 +137,7 @@ function previousFood(data) {
     });
   }
 
+  //deletes the foodItem array in local storage
   function reset() {
     localStorage.removeItem("foodItem");
     $("#previousrecipes").remove();
