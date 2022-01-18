@@ -59,6 +59,10 @@ ul {
     width: 40%;
 }
 
+.strikethrough {
+    text-decoration: line-through;
+}
+
 /*for md screen*/
 @media screen and (min-width: 480px) {
     .shopList {

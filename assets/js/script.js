@@ -1,6 +1,7 @@
 // API references id at the end
 var priorMeal = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="
 var foodList = $("#previousrecipes");
+var recipeList = $("#recipelist");
 var foodArray = [];
 var btn = $("#recipebutton");
 
@@ -26,6 +27,9 @@ function fetchMeal() {
 
 function displayCountry(data) {
   var country = data.meals[0].strArea;
+  if (country === "Unknown") {
+    return;
+  }
   console.log(country);
   var countryName = $("#country");
   countryName = countryName.text(country);
@@ -68,10 +72,17 @@ function showList(data) {
     if (!meal[ingredientKey]) {
       break;
     }
+    // clickbutton.attr("type", "checkbox");
     var recipeLi = $("<li>").text(meal[ingredientKey] + " " + meal[measureKey]);
     $("#shoppinglist").append(recipeLi);
   }
 }
+
+$("#shoppingcontainer").on("click", function (event) {
+  target = $(event.target);
+  console.log(target);
+  $(target).toggleClass("strikethrough");
+})
 
 function previousFood(data) {
   storedArray = JSON.parse(localStorage.getItem("foodItem"));
@@ -127,7 +138,7 @@ function previousFood(data) {
         })
     });
   }
-  
+
   function reset() {
     localStorage.removeItem("foodItem");
     $("#previousrecipes").remove();
