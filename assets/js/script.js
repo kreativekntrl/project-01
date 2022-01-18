@@ -1,6 +1,7 @@
 // API references id at the end
 var priorMeal = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="
 var foodList = $("#previousrecipes");
+var recipeList = $("#recipelist");
 var foodArray = [];
 var btn = $("#recipebutton");
 
@@ -19,7 +20,17 @@ function fetchMeal() {
       displayVideo(data);
       showList(data);
       previousFood(data);
+      displayCountry(data);
     })
+}
+
+function displayCountry(data) {
+  var country = data.meals[0].strArea;
+  if (country === "Unknown") {
+    return;
+  }
+  var countryName = $("#country");
+  countryName = countryName.text(country);
 }
 
 //embeds youtube videos in the iframe
@@ -27,6 +38,7 @@ function displayVideo(data) {
   var video = $("#video");
   var fetchedURL = data.meals[0].strYoutube;
   if (fetchedURL === "") {
+    video.remove();
     return;
   }
   var firstSplit = fetchedURL.split("watch");
@@ -63,6 +75,13 @@ function showList(data) {
   }
 }
 
+//toggles line-through property on or off of shopping list items
+$("#shoppinglist").on("click", function (event) {
+  target = $(event.target);
+  $(target).toggleClass("strikethrough");
+})
+
+//displays previous recipes in a list next to ingredients
 function previousFood(data) {
   storedArray = JSON.parse(localStorage.getItem("foodItem"));
 
@@ -117,7 +136,8 @@ function previousFood(data) {
         })
     });
   }
-  
+
+  //deletes the foodItem array in local storage
   function reset() {
     localStorage.removeItem("foodItem");
     $("#previousrecipes").remove();
